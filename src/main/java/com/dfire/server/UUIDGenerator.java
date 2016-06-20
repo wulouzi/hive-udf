@@ -32,7 +32,7 @@ public class UUIDGenerator extends UDF {
      *
      * @return 新的UUID.
      */
-    public static String generate(String entityId) {
+    public static String evaluate(String entityId) {
         if (StringUtils.isNotBlank(entityId)) {
             return new StringBuilder(ID_LENGTH).append(format(entityId)).append(format(getJVM()))
                     .append(format(getHiTime())).append(format(getLoTime()))
@@ -49,7 +49,7 @@ public class UUIDGenerator extends UDF {
      * @param stringval 字符串型的值.
      * @return 格式化后的结果.
      */
-    protected static String format(String stringval) {
+    private static String format(String stringval) {
         if (stringval == null) {
             stringval = "";
         }
@@ -67,7 +67,7 @@ public class UUIDGenerator extends UDF {
      * @param intval int型的值.
      * @return 格式化后的字符串.
      */
-    protected static String format(int intval) {
+    private static String format(int intval) {
         String formatted = Integer.toHexString(intval);
         StringBuilder buf = new StringBuilder("00000000");
         buf.replace(INT_BIT - formatted.length(), INT_BIT, formatted);
@@ -81,7 +81,7 @@ public class UUIDGenerator extends UDF {
      * @param shortval short型的值.
      * @return 格式化后的字符串.
      */
-    protected static String format(short shortval) {
+    private static String format(short shortval) {
         String formatted = Integer.toHexString(shortval);
         StringBuilder buf = new StringBuilder("0000");
         buf.replace(SHORT_BIT - formatted.length(), SHORT_BIT, formatted);
@@ -93,7 +93,7 @@ public class UUIDGenerator extends UDF {
      *
      * @return 高位时间.
      */
-    protected static short getHiTime() {
+    private static short getHiTime() {
         return (short) (System.currentTimeMillis() >>> HI);
     }
 
@@ -112,7 +112,7 @@ public class UUIDGenerator extends UDF {
      *
      * @return 当前计数.
      */
-    protected static short getCount() {
+    private static short getCount() {
         synchronized (UUIDGenerator.class) {
             if (counter < 0) {
                 counter = 0;
@@ -127,11 +127,11 @@ public class UUIDGenerator extends UDF {
      *
      * @return JVM相关信息.
      */
-    protected static int getJVM() {
+    private static int getJVM() {
         return JVM;
     }
 
-    public static String getUUID() {
+    private static String getUUID() {
         String s = UUID.randomUUID().toString();
         return s.replaceAll("-", "");
         //去掉“-”符号
