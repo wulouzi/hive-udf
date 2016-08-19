@@ -31,18 +31,17 @@ public class SplitCol extends GenericUDTF {
 
     @Override
     public void process(Object[] cols) throws HiveException {
-        System.out.println(Arrays.toString(cols));
+//        System.out.println(Arrays.toString(cols));
 
-        String[] field = cols[0].toString().toString().split(",");
+        String[] field = cols[0].toString().split(",");
         int length = field.length;
         int rowLength = cols.length;
         for(int i=0;i<length;i++){
            String[] row = new String[rowLength];
            for(int m=0;m<rowLength;m++){
-               row[m] = cols[m].toString().toString().split(",")[i];
+               row[m] = cols[m].toString().split(",")[i];
            }
-            System.out.println(Arrays.toString(row));
-//            forward(row);
+//            System.out.println(Arrays.toString(row));
         }
 
     }
@@ -56,7 +55,7 @@ public class SplitCol extends GenericUDTF {
 
 
     public static void main(String[] args) throws HiveException {
-        Object xx[]  = new Object[]{"11,22","aa,bb"};
+        Object xx[]  = new Object[]{"11,22,1","aa,bb,6"};
         SplitCol t = new SplitCol();
         t.process(xx);
     }
