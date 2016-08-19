@@ -42,6 +42,7 @@ public class SplitCol extends GenericUDTF {
                row[m] = cols[m].toString().split(",")[i];
            }
 //            System.out.println(Arrays.toString(row));
+            forward(row);
         }
 
     }
