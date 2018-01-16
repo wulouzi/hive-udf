@@ -46,7 +46,7 @@ public class UDFTimeZone extends UDF {
 
 
     public static void main(String[] args) {
-        System.out.println(timeToDate(1504079584000L,null,"+8"));
+        System.out.println(timeToDate(1505196443418L,null,"+8"));
     }
 
     public  String evaluate(String unixTime4MS, String formats, String _timeZone){
