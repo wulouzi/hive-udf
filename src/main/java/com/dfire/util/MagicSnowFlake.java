@@ -9,16 +9,14 @@ public class MagicSnowFlake {
     //其实时间戳   2017-01-01 00:00:00
     private final static long twepoch = 1483200000000l;
 
-    // 改到16位 65535，认为MAP 的最大数量限制
-    private final static long ipIdBits = 16L;
+    // 改到16位 65535，认为MAP的最大数量限制
+    private final static long mapIdBits = 16L;
 
-    //65535。
-    private final static long ipIdMax = ~ (-1L << ipIdBits);
+    private final static long ipIdMax = ~ (-1L << mapIdBits);
 
-    // 默认1位
+    // 默认1位,我们小，没那么多数据中心，意思一下
     private final static long dataCenterIdBits = 1L;
 
-    //数字标识id最大值 3  即2的2次方减一。
     private final static long dataCenterIdMax = ~ (-1L << dataCenterIdBits);
 
     //序列在id中占的位数 12bit
@@ -27,10 +25,10 @@ public class MagicSnowFlake {
     //序列最大值 4095 即2的12次方减一。
     private final static long seqMax = ~(-1L << seqBits);
 
-    // 64位的数字：首位0  随后41位表示时间戳 随后10位工作机器id（8位IP标识 + 2位数字标识） 最后12位序列号
+    // 64位的数字：首位0  随后41位表示时间戳 MAP_ID 最后12位序列号
     private final static long dataCenterIdLeftShift = seqBits;
-    private final static long ipIdLeftShift = seqBits + dataCenterIdBits;
-    private final static long timeLeftShift = seqBits  + dataCenterIdBits + ipIdLeftShift;
+    private final static long mapIdLeftShift = seqBits + dataCenterIdBits;
+    private final static long timeLeftShift = seqBits  + dataCenterIdBits + mapIdLeftShift;
 
     //IP标识(0~255)
     private long ipId;
@@ -79,9 +77,8 @@ public class MagicSnowFlake {
         lastTime = nowTime;
 
 
-        System.out.println((nowTime - twepoch)+':'+timeLeftShift+":"+ipId+":"+ipIdLeftShift+":"+dataCenterId+":"+seq);
         return ((nowTime - twepoch) << timeLeftShift)
-                | (ipId << ipIdLeftShift)
+                | (ipId << mapIdLeftShift)
                 | (dataCenterId << dataCenterIdLeftShift)
                 | seq;
     }
@@ -93,52 +90,13 @@ public class MagicSnowFlake {
         } while(nowTime <= lastTime);
         return nowTime;
     }
-}
-
-
-/**
- * @author zcl
- * @date 2017/7/12
- **/
-class ThreadSnowFlake extends Thread {
-
-    MagicSnowFlake msf;
-
-    int cnt = 0;
-
-    public ThreadSnowFlake(MagicSnowFlake msf) {
-        this.msf = msf;
-    }
-
-    public void run() {
-        if(msf != null) {
-            while(cnt < 10) {
-                System.out.println(Thread.currentThread().getId() + " : " + msf.nextId());
-                cnt ++;
-            }
-        }
-    }
-}
-
-/**
- * @author zcl
- * @date 2017/7/12
- **/
-class AlgorithmMain {
 
     public static void main(String[] args) {
-        // 37292655581:1:13:1:5
-
+        System.out.println(Long.MAX_VALUE);
         MagicSnowFlake msf = new MagicSnowFlake(1, 1);
-        MagicSnowFlake msf2 = new MagicSnowFlake(1, 1);
-
-
-        ThreadSnowFlake t1 = new ThreadSnowFlake(msf);
-        ThreadSnowFlake t2 = new ThreadSnowFlake(msf2);
-
-        t1.start();
-        t2.start();
+        msf.nextId();
         System.out.println(~ (-1L << 15));
     }
 }
+
 
