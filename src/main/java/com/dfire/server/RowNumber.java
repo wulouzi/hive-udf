@@ -9,6 +9,9 @@ import org.apache.hadoop.hive.ql.exec.UDF;
 public class RowNumber extends UDF {
     private static int MAX_VALUE = 50;
     private static String comparedColumn[] = new String[MAX_VALUE];
+
+
+
     private static int rowNum = 1;
 
     public int evaluate(Object... args) {
