@@ -9,37 +9,41 @@ public class MagicSnowFlake {
     //其实时间戳   2017-01-01 00:00:00
     private final static long twepoch = 1483200000000l;
 
-    // 改到16位 65535，认为MAP的最大数量限制
-    private final static long mapIdBits = 16L;
 
-    private final static long ipIdMax = ~ (-1L << mapIdBits);
 
-    // 默认1位,我们小，没那么多数据中心，意思一下
+
+    /** map 的限制 65535，认为MAP的最大数量限制 */
+    private final static long ipIdMax = 65535L;
+
+    /** 默认1位,我们小，没那么多数据中心，意思一下 */
     private final static long dataCenterIdBits = 1L;
+
+    /** 10 位地址 （mapIdBits + dataCenterIdBits ）*/
+    private final static long mapIdBits = 9L;
 
     private final static long dataCenterIdMax = ~ (-1L << dataCenterIdBits);
 
-    //序列在id中占的位数 12bit
+    /** 序列在id中占的位数 12bit */
     private final static long seqBits = 12L;
 
-    //序列最大值 4095 即2的12次方减一。
+    /** 序列最大值 4095 即2的12次方减一 */
     private final static long seqMax = ~(-1L << seqBits);
 
-    // 64位的数字：首位0  随后41位表示时间戳 MAP_ID 最后12位序列号
+    /** 64位的数字：首位0  随后41位表示时间戳 MAP_ID 最后12位序列号 */
     private final static long dataCenterIdLeftShift = seqBits;
     private final static long mapIdLeftShift = seqBits + dataCenterIdBits;
-    private final static long timeLeftShift = seqBits  + dataCenterIdBits + mapIdLeftShift;
+    private final static long timeLeftShift = seqBits  + dataCenterIdBits + mapIdBits;
 
-    //IP标识(0~255)
+    /** IP标识(0~255) */
     private long ipId;
 
-    // 数据中心ID(0~3)
+     /**  数据中心ID(0~3) */
     private long dataCenterId;
 
-    // 毫秒内序列(0~4095)
+     /**  毫秒内序列(0~4095) */
     private long seq = 0L;
 
-    // 上次生成ID的时间截
+     /**  上次生成ID的时间截 */
     private long lastTime = -1L;
 
     public MagicSnowFlake(long ipId, long dataCenterId) {
@@ -92,10 +96,17 @@ public class MagicSnowFlake {
     }
 
     public static void main(String[] args) {
-        System.out.println(Long.MAX_VALUE);
-        MagicSnowFlake msf = new MagicSnowFlake(1, 1);
-        msf.nextId();
-        System.out.println(~ (-1L << 15));
+        MagicSnowFlake m = new MagicSnowFlake(12345,1);
+        System.out.println(m.nextId());
+        // 4149295021352300544
+        // 259331017536450560
+        // 259331629934268416
+        // 259331692748910592
+        // 1074562925634867202
+        // 259339503435862018
+        System.out.println("259331017536450560".length());
+
+
     }
 }
 
