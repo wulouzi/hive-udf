@@ -6,7 +6,7 @@ package com.dfire.util;
  */
 public class MagicSnowFlake {
 
-    //其实时间戳   2017-01-01 00:00:00
+    /** 其实时间戳   2017-01-01 00:00:00 */
     private final static long twepoch = 1483200000000l;
 
 
@@ -103,7 +103,7 @@ public class MagicSnowFlake {
         // 259331629934268416
         // 259331692748910592
         // 1074562925634867202
-        // 259339503435862018
+        // 259342802721648640
         System.out.println("259331017536450560".length());
 
 
