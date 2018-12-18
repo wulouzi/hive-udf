@@ -85,7 +85,7 @@ public class ParseMR extends UDF {
         // TODO Auto-generated method stub
         ParseMR pmr = new ParseMR();
 
-        System.out.println(pmr.evaluate(null));
+        System.out.println(pmr.evaluate(" Stage-Stage-2: Map: 2 Cumulative CPU: 22.77 sec HDFS Read: 187137515 HDFS Write: 754004 SUCCESS"));
     }
 
 }
