@@ -1,4 +1,4 @@
-package com.dfire.util;
+package com.dfire.server;
 
 
 import org.apache.hadoop.hive.ql.exec.UDF;
@@ -8,13 +8,22 @@ import org.apache.hadoop.hive.ql.exec.UDF;
  * @author <a href="mailto:huoguo@2dfire.com">火锅</a>
  * @time 18/6/12
  */
-public class ShortUrlUtil extends UDF {
+public class ShortUrlEncode extends UDF {
 
 
     /**
      *  @排骨 @冰石 负责
      */
     public static final String CODE_STRING = "vPh7zZwA2LyU4bGq5tcVfIMxJi6XaSoK9CNp0OWljYTHQ8REnmu31BrdgeDkFs";
+
+
+
+
+    public  String evaluate(String code){
+        Long lng = Long.parseLong(code);
+        return  encode(lng);
+    }
+
 
     /**
      * 数字转短网址
@@ -49,7 +58,7 @@ public class ShortUrlUtil extends UDF {
     }
 
     public static void main(String[] args) {
-        System.out.println(ShortUrlUtil.encode(200435L));
+        System.out.println(ShortUrlEncode.encode(3072L));
     }
 
 }
