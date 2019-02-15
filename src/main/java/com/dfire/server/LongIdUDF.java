@@ -46,8 +46,8 @@ public class LongIdUDF extends GenericUDF {
     @Override
     public Long evaluate(DeferredObject[] arguments) throws HiveException {
         if(snowFlake == null){
-            int dataCenterId = Integer.parseInt(arguments[0].get().toString());
-            snowFlake = new MagicSnowFlake(getMapTaskId(),dataCenterId);
+            int jobId = Integer.parseInt(arguments[0].get().toString());
+            snowFlake = new MagicSnowFlake(getMapTaskId(),jobId);
         }
         return snowFlake.nextId();
     }

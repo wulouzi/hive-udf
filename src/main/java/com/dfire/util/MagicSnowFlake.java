@@ -12,33 +12,33 @@ public class MagicSnowFlake {
 
 
 
-    /** map 的限制 65535，认为MAP的最大数量限制 */
-    private final static long ipIdMax = 65535L;
+    /** map 的限制 65535，认为MAP的最大数量限制 14位 */
+    private final static long ipIdMax = 1024*16L;
 
-    /** 默认1位,我们小，没那么多数据中心，意思一下 */
-    private final static long dataCenterIdBits = 1L;
+    /** job_id 组  64个个最多 */
+    private final static long jobIdBits = 5L;
 
-    /** 10 位地址 （mapIdBits + dataCenterIdBits ）*/
+    /** 9 位地址 （mapIdBits + dataCenterIdBits ）*/
     private final static long mapIdBits = 9L;
 
-    private final static long dataCenterIdMax = ~ (-1L << dataCenterIdBits);
+    private final static long dataCenterIdMax = ~ (-1L << jobIdBits);
 
-    /** 序列在id中占的位数 12bit */
-    private final static long seqBits = 12L;
+    /** 序列在id中占的位数 8bit */
+    private final static long seqBits = 8L;
 
     /** 序列最大值 4095 即2的12次方减一 */
     private final static long seqMax = ~(-1L << seqBits);
 
-    /** 64位的数字：首位0  随后41位表示时间戳 MAP_ID 最后12位序列号 */
+    /** 64位的数字：首位0  随后41位表示时间戳 MAP_ID 最后 8位序列号 */
     private final static long dataCenterIdLeftShift = seqBits;
-    private final static long mapIdLeftShift = seqBits + dataCenterIdBits;
-    private final static long timeLeftShift = seqBits  + dataCenterIdBits + mapIdBits;
+    private final static long mapIdLeftShift = seqBits + jobIdBits;
+    private final static long timeLeftShift = seqBits  + jobIdBits + mapIdBits;
 
     /** IP标识(0~255) */
     private long ipId;
 
      /**  数据中心ID(0~3) */
-    private long dataCenterId;
+    private long JobdId;
 
      /**  毫秒内序列(0~4095) */
     private long seq = 0L;
@@ -46,19 +46,19 @@ public class MagicSnowFlake {
      /**  上次生成ID的时间截 */
     private long lastTime = -1L;
 
-    public MagicSnowFlake(long ipId, long dataCenterId) {
+    public MagicSnowFlake(long ipId, long jobId) {
         if(ipId < 0 || ipId > ipIdMax) {
             System.out.println(" ---------- ipId不在正常范围内(0~"+ipIdMax +") " + ipId);
             System.exit(0);
         }
 
-        if(dataCenterId < 0 || dataCenterId > dataCenterIdMax) {
-            System.out.println(" ---------- dataCenterId不在正常范围内(0~"+dataCenterIdMax +") " + dataCenterId);
+        if(JobdId < 0 || JobdId > dataCenterIdMax) {
+            System.out.println(" ---------- dataCenterId不在正常范围内(0~"+dataCenterIdMax +") " + JobdId);
             System.exit(0);
         }
 
         this.ipId = ipId;
-        this.dataCenterId = dataCenterId;
+        this.JobdId = JobdId;
     }
 
     public synchronized long nextId() {
@@ -83,7 +83,7 @@ public class MagicSnowFlake {
 
         return ((nowTime - twepoch) << timeLeftShift)
                 | (ipId << mapIdLeftShift)
-                | (dataCenterId << dataCenterIdLeftShift)
+                | (JobdId << dataCenterIdLeftShift)
                 | seq;
     }
 
@@ -96,7 +96,7 @@ public class MagicSnowFlake {
     }
 
     public static void main(String[] args) {
-        MagicSnowFlake m = new MagicSnowFlake(12345,1);
+        MagicSnowFlake m = new MagicSnowFlake(12345,4);
         System.out.println(m.nextId());
         // 4149295021352300544
         // 259331017536450560
