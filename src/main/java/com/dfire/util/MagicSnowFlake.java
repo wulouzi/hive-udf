@@ -52,13 +52,13 @@ public class MagicSnowFlake {
             System.exit(0);
         }
 
-        if(JobdId < 0 || JobdId > dataCenterIdMax) {
+        if(jobId < 0 || jobId > dataCenterIdMax) {
             System.out.println(" ---------- dataCenterId不在正常范围内(0~"+dataCenterIdMax +") " + JobdId);
             System.exit(0);
         }
 
         this.ipId = ipId;
-        this.JobdId = JobdId;
+        this.JobdId = jobId;
     }
 
     public synchronized long nextId() {
