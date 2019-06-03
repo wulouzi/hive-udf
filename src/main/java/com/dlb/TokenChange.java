@@ -20,18 +20,20 @@ public class TokenChange extends UDF {
 
 
     public static void main(String[] args) {
-        System.out.println(new TokenChange().parseToken("q7DJ23pztdomzr0/Huc gKXIhtjyPZ7fKpyFnI1mcpY="));
+        System.out.println(new TokenChange().parseToken(""));
     }
-
 
     public String evaluate(String str) {
         try {
+            if(str != null){
+                str = str.trim();
+            }
             return parseToken(str);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(str);
         }
-        throw new IllegalArgumentException("error : " + str);
+        return "error:0";
     }
 
     /**
@@ -45,10 +47,10 @@ public class TokenChange extends UDF {
     private final static String SEPARATOR = "|";
 
     /**
+     * //ResourceBundle.getBundle("key").getString("encryptKey");
      * 加密key
      */
-    private final static String encryptKey = "mallcaiMALLCAI";//ResourceBundle.getBundle("key").getString("encryptKey");
-
+    private final static String encryptKey = "mallcaiMALLCAI";
 
     public String parseToken(String deveiceToken) {
         deveiceToken = deveiceToken.replace(" ", "+");
