@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.nexr</groupId>
 	<artifactId>nexr-hive-udf</artifactId>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.6.1-SNAPSHOT</version>
 	<build>
 		<plugins>
 			<plugin>
@@ -71,6 +71,12 @@
 			<version>1.2.54</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
 	</dependencies>
 
 </project>
